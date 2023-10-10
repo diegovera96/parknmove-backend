@@ -1,43 +1,69 @@
-'use strict';
+"use strict";
+require("dotenv").config();
 
-const fs = require('fs');
-const path = require('path');
-const Sequelize = require('sequelize');
-const process = require('process');
-const basename = path.basename(__filename);
-const env = process.env.NODE_ENV || 'development';
-const config = require(__dirname + '/../config/config.json')[env];
-const db = {};
+const { Sequelize, DataTypes } = require("sequelize");
 
-let sequelize;
-if (config.use_env_variable) {
-  sequelize = new Sequelize(process.env[config.use_env_variable], config);
-} else {
-  sequelize = new Sequelize(config.database, config.username, config.password, config);
-}
+const sequelize = new Sequelize(
+  process.env.DB_DATABASE,
+  process.env.DB_USER,
+  process.env.DB_PASSWORD,
+  {
+    host: process.env.DB_HOST,
+    dialect: "mysql",
+    operatorsAliases: false,
+  }
+);
 
-fs
-  .readdirSync(__dirname)
-  .filter(file => {
-    return (
-      file.indexOf('.') !== 0 &&
-      file !== basename &&
-      file.slice(-3) === '.js' &&
-      file.indexOf('.test.js') === -1
-    );
+sequelize
+  .authenticate()
+  .then(() => {
+    console.log("Connection has been established successfully.");
   })
-  .forEach(file => {
-    const model = require(path.join(__dirname, file))(sequelize, Sequelize.DataTypes);
-    db[model.name] = model;
+  .catch((err) => {
+    console.error("Unable to connect to the database:", err);
   });
 
-Object.keys(db).forEach(modelName => {
-  if (db[modelName].associate) {
-    db[modelName].associate(db);
-  }
+const db = {};
+
+db.Sequelize = Sequelize;
+db.sequelize = sequelize;
+
+db.parking = require("./ParkingModel.js")(sequelize, DataTypes);
+db.parking_user = require("./ParkingUserModel.js")(sequelize, DataTypes);
+db.user = require("./UserModel.js")(sequelize, DataTypes);
+
+db.sequelize.sync({ force: false }).then(() => {
+  console.log("Drop and re-sync db.");
 });
 
-db.sequelize = sequelize;
-db.Sequelize = Sequelize;
+db.user.hasOne(db.parking, {
+  foreignKey: "admin_id",
+  as: "parking",
+});
+
+db.parking.belongsTo(db.user, {
+  foreignKey: "admin_id",
+  as: "user",
+});
+
+db.user.hasMany(db.parking_user, {
+  foreignKey: "user_id",
+  as: "parking_user",
+});
+
+db.parking_user.belongsTo(db.user, {
+  foreignKey: "user_id",
+  as: "user",
+});
+
+db.parking.hasMany(db.parking_user, {
+  foreignKey: "parking_id",
+  as: "parking_user",
+});
+
+db.parking_user.belongsTo(db.parking, {
+  foreignKey: "parking_id",
+  as: "parking",
+});
 
 module.exports = db;
