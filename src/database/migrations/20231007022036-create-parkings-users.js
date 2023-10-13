@@ -3,7 +3,7 @@
 module.exports = {
   async up(queryInterface, Sequelize) {
     await queryInterface.createTable("parkings_users", {
-      parkings_id: {
+      parking_id: {
         type: Sequelize.INTEGER,
         allowNull: false,
         references: {
@@ -13,7 +13,7 @@ module.exports = {
         onUpdate: "CASCADE",
         onDelete: "CASCADE",
       },
-      users_id: {
+      user_id: {
         type: Sequelize.INTEGER,
         allowNull: false,
         references: {

@@ -1,22 +1,6 @@
-"use strict";
-import { Model } from "sequelize";
-import User from "./user";
-
-export default (sequelize, DataTypes) => {
-  class Parking extends Model {
-    static associate(models) {
-      Parking.belongsTo(models.User, {
-        foreignKey: "admin_id",
-        as: "admin",
-      });
-      Parking.belongsToMany(models.User, {
-        through: "Parkings_Users",
-        foreignKey: "parking_id",
-        as: "parkings_users",
-      });
-    }
-  }
-  Parking.init(
+module.exports = (sequelize, DataTypes) => {
+  const Parking = sequelize.define(
+    "parking",
     {
       id: {
         type: DataTypes.INTEGER,
@@ -54,7 +38,7 @@ export default (sequelize, DataTypes) => {
       freezeTableName: true,
       tableName: "parkings",
       sequelize,
-      modelName: "Parking",
+      modelName: "ParkingModel",
     }
   );
   return Parking;

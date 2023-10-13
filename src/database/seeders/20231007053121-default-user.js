@@ -49,8 +49,8 @@ module.exports = {
       "Parkings_Users",
       [
         {
-          parkings_id: 1,
-          users_id: 1,
+          parking_id: 1,
+          user_id: 1,
           total_price: null,
           createdAt: new Date(),
           updatedAt: new Date(),
