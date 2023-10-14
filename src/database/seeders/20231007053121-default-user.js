@@ -56,6 +56,7 @@ module.exports = {
           updatedAt: new Date(),
           entry_time: new Date(),
           exit_time: null,
+          extra_fee: 500,
         },
       ],
       {}
