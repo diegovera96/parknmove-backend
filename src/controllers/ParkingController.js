@@ -1,5 +1,6 @@
 const db = require("../models");
 const Parking = db.parking;
+const Parking_User = db.parking_user;
 
 // Función para obtener todos los datos del estacionamiento
 const getAllParkingData = async (req, res) => {
@@ -13,37 +14,64 @@ const getAllParkingData = async (req, res) => {
 };
 
 // Función para calcular el precio total (Manteniendo tu función original)
-const calculateTotalPlaces = async (req, res) => {
+const calculateExtraFee = async (req, res) => {
   try {
-    const places = await ParkingUser.findAll({
+    const parkingId = req.query.id;
+    const places = await Parking_User.findAll({
       where: {
-        parking_id: 1,
+        parking_id: parkingId,
       },
     });
 
-    const allParkingPlaces = await Parking.findAll();
-
-    const basePriceRecord = await Parking.findOne({
+    const parking = await Parking.findOne({
       where: {
-        id: 1, // Reemplaza con tu condición
+        id: parkingId, // Reemplaza con tu condición
       },
     });
+    const occupiedPlaces = places.length
+    const totalPlaces = parking.floor_count*parking.places_per_floor;
+    const ExtraFee = parking.base_price*occupiedPlaces/totalPlaces
 
-    const totalPlaces = allParkingPlaces.length;
-    const placesOccupied = places.length;
-    const basePrice = basePriceRecord ? basePriceRecord.base_price : 0;
-
-    const total_price = (placesOccupied / totalPlaces + 1) * basePrice * 5;
-
-    console.log(total_price, totalPlaces, basePrice, placesOccupied);
-    res.json({ total_price });
+    console.log(ExtraFee);
+    res.json({ExtraFee });
   } catch (error) {
     console.error("Error calculating total places:", error);
     res.status(500).json({ error: "Error calculating total places" });
   }
 };
 
+const calculateFinalPayment = async (req, res) => {
+  try {
+    const parkingId = req.query.parkingid;
+    const userId = req.query.userid;
+
+    const transaction = await Parking_User.findOne({
+      where: {
+        parking_Id: parkingId,
+        user_Id: userId
+         // Reemplaza con tu condición
+      },
+    });
+
+    const parking = await Parking.findOne({
+      where: {
+        id: parkingId, // Reemplaza con tu condición
+      },
+    });
+ 
+    const FinalPayment = parking.base_price + db.parking_user.ExtraFee
+
+    console.log(FinalPayment);
+    res.json({FinalPayment });
+  } catch (error) {
+    console.error("Error calculating payment:", error);
+    res.status(500).json({ error: "Error calculating payment" });
+  }
+};
+
+
 export const methods = {
   getAllParkingData,
-  calculateTotalPlaces,
+  calculateExtraFee,
+  calculateFinalPayment
 };
