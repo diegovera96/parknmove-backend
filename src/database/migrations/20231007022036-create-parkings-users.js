@@ -37,6 +37,14 @@ module.exports = {
         allowNull: false,
         defaultValue: Sequelize.literal("CURRENT_TIMESTAMP"),
       },
+      entry_time: {
+        type: Sequelize.DATE,
+        allowNull: false,
+      },
+      exit_time: {
+        type: Sequelize.DATE,
+        allowNull: true,
+      },
     });
   },
 

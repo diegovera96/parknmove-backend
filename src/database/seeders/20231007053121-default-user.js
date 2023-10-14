@@ -54,6 +54,8 @@ module.exports = {
           total_price: null,
           createdAt: new Date(),
           updatedAt: new Date(),
+          entry_time: new Date(),
+          exit_time: null,
         },
       ],
       {}
