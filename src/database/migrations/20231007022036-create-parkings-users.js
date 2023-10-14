@@ -45,6 +45,10 @@ module.exports = {
         type: Sequelize.DATE,
         allowNull: true,
       },
+      extra_fee: {
+        type: Sequelize.INTEGER,
+        allowNull: true,
+      },
     });
   },
 
