@@ -42,9 +42,9 @@ exports.register = async (req, res) => {
 };
 
 exports.login = async (req, res) => {
-    const { correo, password } = req.body;
+    const { email, password } = req.body;
     try {
-        UserModel.findUserByCredentials(correo, password, (err, existingUser) => {
+        /*UserModel.findUserByCredentials(correo, password, (err, existingUser) => {
             if (err) {
                 console.error(err);
                 return res.status(500).json({ message: 'Error en el servidor' });
@@ -55,7 +55,30 @@ exports.login = async (req, res) => {
             } else {
                 return res.status(400).json({ message: 'Credenciales incorrectas' });
             }
+        });*/
+
+        const user = await User.findOne({
+            where: { email }
         });
+
+        if (!user) {
+        return res.status(401).json({ error: 'Credenciales inválidas' });
+        }
+
+        const salt = crypto.randomBytes(16).toString('hex');
+        const secretKey = 'mysecretkey';
+    
+        const passwordHash = crypto.createHmac('sha256', secretKey)
+        .update(password)
+        .digest('hex');
+
+        if (passwordHash === user.password) {
+        const token = user.generateAuthToken();
+        return res.status(200).json({ message: 'Inicio de sesión exitoso', user, token });
+        }
+
+        return res.status(401).json({ error: 'Credenciales inválidas' });
+
     } catch (error) {
         console.error(error);
         res.status(500).json({ message: 'Error en el servidor' });
