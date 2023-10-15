@@ -1,35 +1,31 @@
 // Importar el modelo de usuario
+const db = require("../src/models");
+const User = db.user;
 const { UserModel } = require('./userModel');
 
 // Controlador para el registro de usuarios
 exports.register = async (req, res) => {
-    const { nombre, apellido, correo, password, privilegio } = req.body;
+    const { name, lastname, email, password, priority } = req.body;
     try {
-        // Verificar si el correo electrónico ya está registrado
+        const existingUser = await User.findOne({
+            where: { email },
+          });
+      
+          if (existingUser) {
+            return res.status(400).json({ error: "Ya hay un usuario registrado con este correo." });
+          }
 
-        UserModel.findUserByEmail(correo, (err, existingUser) => {
-            if (err) {
-                console.error(err);
-                return res.status(500).json({ message: 'Error en el servidor' });
-            }
-            if (existingUser) {
-                return res.status(400).json({ message: 'El correo electrónico ya está registrado' });
-            }else{
-
-                // Crear un nuevo usuario
-                const user = new UserModel(nombre, apellido, correo, password, privilegio);
-
-                // Guardar el usuario en la base de datos
-                user.save();
-
-                // Generar un token de autenticación
-                const token = user.generateAuthToken();
-
-                // Enviar la respuesta con el token
-                res.json({ token });  
-            }
+        const user = await User.create({
+            name: req.body.name,
+            lastname: req.body.lastname,
+            email: req.body.email,
+            password: req.body.password,
+            priority: req.body.priority
         });
 
+        const token = user.generateAuthToken();
+
+        res.status(201).json({ message: 'Usuario creado exitosamente', user, token });
 
     } catch (error) {
         console.error(error);
