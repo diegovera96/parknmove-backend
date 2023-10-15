@@ -1,0 +1,35 @@
+BACKEND
+DEBUG=serve:* npm start
+mysql -u express -p
+SHOW DATABASES;
+USE db_de_prueba;
+SELECT * FROM tabla_de_prueba;
+DELETE FROM tabla_de_prueba LIMIT 1;
+ALTER TABLE tabla_de_prueba AUTO_INCREMENT = 2;
+
+consulta mysql orm
+vista
+hash
+
+npm install jsonwebtoken
+
+IONIC
+ionic serve
+npm install vuex qs axios --save
+
+  <ion-page>
+    <ion-list>
+      <ion-item>
+        <ion-input label-placement="floating" v-model="email">
+          <div slot="label">Email <ion-text color="danger">(Required)</ion-text></div>
+        </ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-input label-placement="floating" v-model="password" type="password">
+          <div slot="label">Password <ion-text color="danger">(Required)</ion-text></div>
+        </ion-input>
+        </ion-item>
+    </ion-list>
+    <ion-button @click="login">Login</ion-button>
+  </ion-page>
+    @ionBlur="markTouched"
