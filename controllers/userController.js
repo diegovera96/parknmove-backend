@@ -2,6 +2,7 @@
 const db = require("../src/models");
 const User = db.user;
 const { UserModel } = require('./userModel');
+var crypto = require('crypto'); 
 
 // Controlador para el registro de usuarios
 exports.register = async (req, res) => {
@@ -9,17 +10,24 @@ exports.register = async (req, res) => {
     try {
         const existingUser = await User.findOne({
             where: { email },
-          });
-      
-          if (existingUser) {
+        });
+    
+        if (existingUser) {
             return res.status(400).json({ error: "Ya hay un usuario registrado con este correo." });
-          }
+        }
+
+        const salt = crypto.randomBytes(16).toString('hex');
+        const secretKey = 'mysecretkey';
+    
+        const passwordHash = crypto.createHmac('sha256', secretKey)
+        .update(password)
+        .digest('hex');
 
         const user = await User.create({
             name: req.body.name,
             lastname: req.body.lastname,
             email: req.body.email,
-            password: req.body.password,
+            password: passwordHash,
             priority: req.body.priority
         });
 
