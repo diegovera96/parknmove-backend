@@ -1,7 +1,6 @@
 // Importar el modelo de usuario
 const db = require("../src/models");
 const User = db.user;
-const { UserModel } = require('./userModel');
 var crypto = require('crypto'); 
 
 // Controlador para el registro de usuarios
@@ -44,25 +43,13 @@ exports.register = async (req, res) => {
 exports.login = async (req, res) => {
     const { email, password } = req.body;
     try {
-        /*UserModel.findUserByCredentials(correo, password, (err, existingUser) => {
-            if (err) {
-                console.error(err);
-                return res.status(500).json({ message: 'Error en el servidor' });
-            }
-            if (existingUser) {
-                const token = existingUser.generateAuthToken();
-                res.json({ token });
-            } else {
-                return res.status(400).json({ message: 'Credenciales incorrectas' });
-            }
-        });*/
 
-        const user = await User.findOne({
-            where: { email }
+        const existingUser = await User.findOne({
+            where: { email },
         });
-
-        if (!user) {
-        return res.status(401).json({ error: 'Credenciales inválidas' });
+    
+        if (!existingUser) {
+            return res.status(400).json({ error: "No hay un usuario registrado con este correo." });
         }
 
         const salt = crypto.randomBytes(16).toString('hex');
@@ -72,9 +59,9 @@ exports.login = async (req, res) => {
         .update(password)
         .digest('hex');
 
-        if (passwordHash === user.password) {
-        const token = user.generateAuthToken();
-        return res.status(200).json({ message: 'Inicio de sesión exitoso', user, token });
+        if (passwordHash === existingUser.password) {
+        const token = existingUser.generateAuthToken();
+        return res.status(200).json({ message: 'Inicio de sesión exitoso', existingUser, token });
         }
 
         return res.status(401).json({ error: 'Credenciales inválidas' });
