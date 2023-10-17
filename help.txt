@@ -12,6 +12,7 @@ vista
 hash
 
 npm install jsonwebtoken
+npm install crypto
 
 IONIC
 ionic serve
