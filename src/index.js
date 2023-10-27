@@ -1,13 +1,8 @@
-var express = require('express');
-var userController = require('./controllers/userController');
-var router = express.Router();
+import app from "./app";
 
-/* GET home page. */
-router.get('/', function(req, res, next) {
-  res.render('index', { title: 'Express' });
-});
-router.use(express.json());
-router.post('/user/register', userController.register);
-router.post('/user/login', userController.login);
+const main = () => {
+  app.listen(app.get("port"));
+  console.log("Server on port", app.get("port"));
+};
 
-module.exports = router;
+main();
