@@ -13,6 +13,9 @@ router.get("/", (req, res) => {
 router.get("/calculateExtraFee", ParkingController.calculateExtraFee);
 // //calculateFinalPayment?parkingid=1&userid=2
 router.get("/calculateFinalPayment", ParkingController.calculateFinalPayment);
+
+// /Historial?userid=1
+router.get(/Historial/, ParkingController.getHistorial);
 export default router;
 
 

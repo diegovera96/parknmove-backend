@@ -91,4 +91,5 @@ export const methods = {
   getAllParkingData,
   calculateExtraFee,
   calculateFinalPayment,
+  getHistorial,
 };
