@@ -1,7 +1,13 @@
-import { Router } from "express";
-const router = Router();
+var express = require("express");
+var userController = require("../controllers/userController");
+var router = express.Router();
 
-router.get("/", (req, res) => {
-  res.send("Hello World");
+/* GET home page. */
+router.get("/", function (req, res, next) {
+  res.render("index", { title: "Express" });
 });
-export default router;
+router.use(express.json());
+router.post("/user/register", userController.register);
+router.post("/user/login", userController.login);
+
+module.exports = router;
