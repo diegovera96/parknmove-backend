@@ -13,7 +13,7 @@ module.exports = {
      * }], {});
      */
     await queryInterface.bulkInsert(
-      "Users",
+      "users",
       [
         {
           name: "John",
@@ -29,7 +29,7 @@ module.exports = {
     );
 
     await queryInterface.bulkInsert(
-      "Parkings",
+      "parkings",
       [
         {
           admin_id: 1,
@@ -46,7 +46,7 @@ module.exports = {
     );
 
     await queryInterface.bulkInsert(
-      "Parkings_Users",
+      "parkings_users",
       [
         {
           parking_id: 1,
