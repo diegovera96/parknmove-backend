@@ -27,5 +27,5 @@ app.use(bodyParser.json());
 //Settings
 app.set("port", 4000);
 
-app.use("/users", userRouter);
+app.use(userRouter);
 export default app;
