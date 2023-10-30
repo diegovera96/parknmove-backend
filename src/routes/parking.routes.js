@@ -20,6 +20,9 @@ router.get("/calculateFinalPayment", ParkingController.calculateFinalPayment);
 // Crear una nueva reserva (nueva ruta POST)
 router.post("/reservations", reservationController.createReservation);
 
+// Ruta para obtener espacios ocupados en un estacionamiento específico
+router.get("/parking/occupiedSpaces", ParkingController.getOccupiedSpaces);
+
 // Otras rutas relacionadas con reservas...
 
 export default router;

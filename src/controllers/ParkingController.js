@@ -13,6 +13,24 @@ const getAllParkingData = async (req, res) => {
   }
 };
 
+const getOccupiedSpaces = async (req, res) => {
+  try {
+    const parkingId = 1;
+
+    const occupiedSpaces = await Parking_User.findAll({
+      where: {
+        parking_id: parkingId,
+        exit_time: null,
+      },
+    });
+
+    res.json(occupiedSpaces.length);
+  } catch (error) {
+    console.error("Error fetching occupied spaces:", error);
+    res.status(500).json({ error: "Error fetching occupied spaces" });
+  }
+};
+
 // Función para calcular el precio total (Manteniendo tu función original)
 const calculateExtraFee = async (req, res) => {
   try {
@@ -92,4 +110,5 @@ export const methods = {
   calculateExtraFee,
   calculateFinalPayment,
   getHistorial,
+  getOccupiedSpaces,
 };
