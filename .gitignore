@@ -5,6 +5,7 @@ package-lock.json
 *.gz
 .env
 Dockerfile
+help.txt
 
 # Coveralls
 .nyc_output
