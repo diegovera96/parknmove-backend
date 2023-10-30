@@ -5,10 +5,10 @@ const Reservation = db.parking_user;
 const createReservation = async (req, res) => {
   try {
     const { user_id, parking_id, total_price, entry_time, exit_time, extra_fee } = req.body;
-    res.status(500).json({ error: "Error al crear la reserva" + JSON.stringify(req.body) });
+    
     // Crea una nueva reserva en la base de datos
     const reservation = await Reservation.create({
-      user_id,
+      user_id: req.body.user_id,
       parking_id,
       total_price,
       entry_time,

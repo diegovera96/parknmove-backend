@@ -17,6 +17,7 @@ module.exports = {
       [
         {
           name: "John",
+          lastname: "Lopez",
           email: "lol@gmail.com",
           password: "1234",
           priority: 1,
