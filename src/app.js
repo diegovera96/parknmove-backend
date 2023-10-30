@@ -10,6 +10,7 @@ const app = express();
 
 //Importing routes
 import userRouter from "./routes/user.routes";
+import parkingRouter from "./routes/parking.routes";
 
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "jade");
@@ -28,4 +29,5 @@ app.use(bodyParser.json());
 app.set("port", 4000);
 
 app.use(userRouter);
+app.use(parkingRouter);
 export default app;

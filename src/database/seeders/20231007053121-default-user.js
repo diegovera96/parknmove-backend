@@ -49,6 +49,7 @@ module.exports = {
       "parkings_users",
       [
         {
+          id: 1,
           parking_id: 1,
           user_id: 1,
           total_price: 2000,

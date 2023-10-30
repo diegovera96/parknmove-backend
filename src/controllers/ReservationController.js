@@ -9,11 +9,11 @@ const createReservation = async (req, res) => {
     // Crea una nueva reserva en la base de datos
     const reservation = await Reservation.create({
       user_id: req.body.user_id,
-      parking_id,
-      total_price,
-      entry_time,
-      exit_time,
-      extra_fee,
+      parking_id: req.body.parking_id,
+      total_price: req.body.total_price,
+      entry_time: req.body.entry_time,
+      exit_time: req.body.exit_time,
+      extra_fee: req.body.extra_fee,
     });
     // Devuelve la reserva creada en la respuesta
     res.status(201).json(reservation);
