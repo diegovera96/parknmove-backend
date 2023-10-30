@@ -17,7 +17,7 @@ module.exports = {
       [
         {
           name: "John",
-          lastname: "Doe",
+          lastname: "Lopez",
           email: "lol@gmail.com",
           password: "1234",
           priority: 1,
@@ -49,9 +49,10 @@ module.exports = {
       "parkings_users",
       [
         {
+          id: 1,
           parking_id: 1,
           user_id: 1,
-          total_price: null,
+          total_price: 2000,
           createdAt: new Date(),
           updatedAt: new Date(),
           entry_time: new Date(),

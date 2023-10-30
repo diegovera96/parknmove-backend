@@ -1,5 +1,6 @@
 import { Router } from "express";
-import { methods as ParkingController, methods } from "../controllers/ParkingController";
+import { methods as ParkingController } from "../controllers/ParkingController";
+import { reservationController } from "../controllers/ReservationController"; // Asegúrate de importar correctamente el controlador de reservas
 
 const router = Router();
 
@@ -9,14 +10,19 @@ router.get("/parking", ParkingController.getAllParkingData);
 router.get("/", (req, res) => {
   res.send("Parknmove API");
 });
-// /calculateExtraFee?id=1
+
+// Calcular costo adicional
 router.get("/calculateExtraFee", ParkingController.calculateExtraFee);
-// //calculateFinalPayment?parkingid=1&userid=2
+
+// Calcular pago final
 router.get("/calculateFinalPayment", ParkingController.calculateFinalPayment);
 
-// /Historial?userid=1
-router.get(/Historial/, ParkingController.getHistorial);
+// Crear una nueva reserva (nueva ruta POST)
+router.post("/reservations", reservationController.createReservation);
+
+// Ruta para obtener espacios ocupados en un estacionamiento específico
+router.get("/parking/occupiedSpaces", ParkingController.getOccupiedSpaces);
+
+// Otras rutas relacionadas con reservas...
+
 export default router;
-
-
-
