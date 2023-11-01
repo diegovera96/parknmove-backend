@@ -4,6 +4,8 @@ package-lock.json
 *.log
 *.gz
 .env
+Dockerfile
+help.txt
 
 # Coveralls
 .nyc_output
