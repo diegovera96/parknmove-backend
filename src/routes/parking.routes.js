@@ -23,6 +23,8 @@ router.post("/reservations", reservationController.createReservation);
 // Ruta para obtener espacios ocupados en un estacionamiento específico
 router.get("/parking/occupiedSpaces", ParkingController.getOccupiedSpaces);
 
+router.get("/parking/historial/:userId", ParkingController.getHistory);
+
 // Otras rutas relacionadas con reservas...
 
 export default router;

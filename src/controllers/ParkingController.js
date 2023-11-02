@@ -87,18 +87,18 @@ const calculateFinalPayment = async (req, res) => {
   }
 };
 
-const getHistorial = async (req, res) => {
+const getHistory = async (req, res) => {
   try{
-    const userId = req.query.userid;
+    const userId = req.params.userId;
 
-    const historial = await Parking_User.findAll({
+    const history = await Parking_User.findAll({
       where: {
         user_Id: userId,
       },
     });
 
-    console.log(historial);
-    res.json({ historial });
+    console.log(history);
+    res.json({ history });
   }catch(error){
     console.error("Error getting historial:", error);
     res.status(500).json({ error: "Error getting historial" });
@@ -109,6 +109,6 @@ export const methods = {
   getAllParkingData,
   calculateExtraFee,
   calculateFinalPayment,
-  getHistorial,
+  getHistory,
   getOccupiedSpaces,
 };
