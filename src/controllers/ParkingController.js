@@ -15,11 +15,8 @@ const getAllParkingData = async (req, res) => {
 
 const getOccupiedSpaces = async (req, res) => {
   try {
-    const parkingId = 1;
-
     const occupiedSpaces = await Parking_User.findAll({
       where: {
-        parking_id: parkingId,
         exit_time: null,
       },
     });
@@ -34,7 +31,7 @@ const getOccupiedSpaces = async (req, res) => {
 // Función para calcular el precio total (Manteniendo tu función original)
 const calculateExtraFee = async (req, res) => {
   try {
-    const parkingId = req.query.id;
+    const parkingId = 1;
     const places = await Parking_User.findAll({
       where: {
         parking_id: parkingId,
@@ -60,9 +57,9 @@ const calculateExtraFee = async (req, res) => {
 
 const calculateFinalPayment = async (req, res) => {
   try {
-    const parkingId = req.query.parkingid;
-    const userId = req.query.userid;
-
+    const parkingId = 1;
+    const userId = req.body.user_id;
+    //console.log(userId);
     const transaction = await Parking_User.findOne({
       where: {
         parking_Id: parkingId,
@@ -77,28 +74,77 @@ const calculateFinalPayment = async (req, res) => {
       },
     });
 
-    const FinalPayment = parking.base_price + transaction.extra_fee;
+    const dateToHours = (transaction.exit_time - transaction.entry_time)/3600000;
+    const FinalPayment = Math.round(parking.base_price + transaction.extra_fee * dateToHours);
 
-    console.log(FinalPayment);
-    res.json({ FinalPayment });
+    const paymentUpdate = await Parking_User.update({
+      total_price: FinalPayment,
+    }, {
+      where: {
+        parking_Id: parkingId,
+        user_Id: userId,
+      },
+    });
+
+    res.json( FinalPayment );
   } catch (error) {
     console.error("Error calculating payment:", error);
     res.status(500).json({ error: "Error calculating payment" });
   }
 };
 
-const getHistorial = async (req, res) => {
+const registerPayment = async (req, res) => {
   try{
-    const userId = req.query.userid;
+    const parkingId = 1;
+    const userId = req.body.user_id;
 
-    const historial = await Parking_User.findAll({
+    const registerDate = new Date();
+    const transaction = await Parking_User.update({
+      exit_time: registerDate,
+    }, {
+      where: {
+        parking_Id: parkingId,
+        user_Id: userId,
+      },
+    });
+    res.json({ registerDate });
+  }catch(error){
+    console.error("Error registering payment:", error);
+    res.status(500).json({ error: "Error registering payment" });
+  }
+};
+
+const getParkingUserData = async (req, res) => {
+  try{
+    const parkingId = req.body.parking_id;
+    const userId = req.body.user_id;
+
+    const info = await Parking_User.findOne({
+      where: {
+        parking_Id: parkingId,
+        user_Id: userId,
+      },
+    });
+
+    res.json( info );
+  }catch(error){
+    console.error("Error getting parking user data:", error);
+    res.status(500).json({ error: "Error getting parking user data" });
+  }
+};
+
+const getHistory = async (req, res) => {
+  try{
+    const userId = req.params.userId;
+
+    const history = await Parking_User.findAll({
       where: {
         user_Id: userId,
       },
     });
 
-    console.log(historial);
-    res.json({ historial });
+    console.log(history);
+    res.json({ history });
   }catch(error){
     console.error("Error getting historial:", error);
     res.status(500).json({ error: "Error getting historial" });
@@ -109,6 +155,8 @@ export const methods = {
   getAllParkingData,
   calculateExtraFee,
   calculateFinalPayment,
-  getHistorial,
+  getHistory,
   getOccupiedSpaces,
+  registerPayment,
+  getParkingUserData
 };

@@ -25,3 +25,6 @@ email VARCHAR(255) NOT NULL,
 password VARCHAR(255) NOT NULL,
 priority INT NOT NULL,
 PRIMARY KEY (id));
+
+si ya reservo, mandar a la vista de datos de la reserva pero necesito recibir la id del usuario logiado para que haga la busqueda de su reserva
+si no ha reservvado, vista de donde peude generar reserva
