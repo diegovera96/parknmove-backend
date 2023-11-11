@@ -4,6 +4,7 @@
   "private": true,
   "scripts": {
     "babel-node": "babel-node --presets=@babel/preset-env",
+    "build": "babel src/index.js -d dist",
     "dev": "nodemon --exec npm run babel-node -- src/index.js"
   },
   "dependencies": {
@@ -28,6 +29,6 @@
     "@babel/node": "^7.22.19",
     "@babel/preset-env": "^7.23.2",
     "nodemon": "^3.0.1",
-    "sequelize-cli": "^6.6.1"
+    "sequelize-cli": "^6.6.2"
   }
 }

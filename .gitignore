@@ -11,6 +11,9 @@ help.txt
 .nyc_output
 coverage
 
+#Sequelize
+sequelizeData.json
+
 # Benchmarking
 benchmarks/graphs
 
