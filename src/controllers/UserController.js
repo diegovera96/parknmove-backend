@@ -58,7 +58,7 @@ exports.register = async (req, res) => {
       lastname: req.body.lastname,
       email: req.body.email,
       password: passwordHash,
-      priority: req.body.priority,
+      priority: 0,
     });
 
     const tokenPayload = {
@@ -107,7 +107,6 @@ exports.login = async (req, res) => {
       name: existingUser.name,
       lastname: existingUser.lastname,
       email: existingUser.email,
-      // Agrega otros campos necesarios aquí
     };
     //Verificar si la contraseña es correcta
     if (passwordHash === existingUser.password) {

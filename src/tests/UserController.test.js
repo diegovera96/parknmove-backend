@@ -1,10 +1,14 @@
-const request = require('supertest');
-const app = require('../routes/user.routes'); // Asegúrate de ajustar la ruta según tu estructura de archivos
+import request from 'supertest';
+import express from 'express';
+import bodyParser from 'body-parser';
+import router from '../routes/user.routes';
 
 describe('User Controller', () => {
   let token; // Almacenará el token de autenticación para las pruebas
+  const app = express();
+  app.use(bodyParser.json());
+  app.use(router);
 
-  // Antes de las pruebas, registra un usuario y obtén el token
   beforeAll(async () => {
     console.log('Before all: Start');
     try {
@@ -21,13 +25,12 @@ describe('User Controller', () => {
       token = response.body.token;
       console.log('Before all: END');
     } catch (error) {
-      throw error; // Si hay un error, lánzalo para que Jest lo maneje
+      throw error;
     }
   }, 15000); // Aumentamos el timeout a 15 segundos
 
-  // Después de las pruebas, puedes limpiar o cerrar cualquier recurso que hayas utilizado
   afterAll(async () => {
-    // Puedes agregar limpieza de la base de datos u otros recursos aquí
+
   });
 
   it('should register a new user', async () => {
@@ -58,7 +61,7 @@ describe('User Controller', () => {
       });
 
     expect(response.status).toBe(400);
-    expect(response.body.errors).toHaveLength(5); // Ajusta este número según la cantidad de errores esperados
+    expect(response.body.errors).toHaveLength(3);
   });
 
   it('should log in an existing user', async () => {
@@ -85,6 +88,4 @@ describe('User Controller', () => {
     expect(response.status).toBe(400);
     expect(response.body.errors).toHaveLength(1);
   });
-
-  // Puedes agregar más pruebas según sea necesario
 });

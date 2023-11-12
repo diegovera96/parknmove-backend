@@ -6,7 +6,7 @@ const Parking_User = db.parking_user;
 const getAllParkingData = async (req, res) => {
   try {
     const parkingData = await Parking.findAll();
-    res.json(parkingData);
+    res.status(200).json(parkingData);
   } catch (error) {
     console.error("Error fetching parking data:", error);
     res.status(500).json({ error: "Error fetching parking data" });
@@ -35,6 +35,7 @@ const calculateExtraFee = async (req, res) => {
     const places = await Parking_User.findAll({
       where: {
         parking_id: parkingId,
+        exit_time: null
       },
     });
 
@@ -47,8 +48,7 @@ const calculateExtraFee = async (req, res) => {
     const totalPlaces = parking.floor_count * parking.places_per_floor;
     const ExtraFee = (parking.base_price * occupiedPlaces) / totalPlaces;
 
-    console.log(ExtraFee);
-    res.json({ ExtraFee });
+    res.status(200).json({ ExtraFee });
   } catch (error) {
     console.error("Error calculating total places:", error);
     res.status(500).json({ error: "Error calculating total places" });
@@ -59,7 +59,6 @@ const calculateFinalPayment = async (req, res) => {
   try {
     const parkingId = 1;
     const userId = req.body.user_id;
-    //console.log(userId);
     const transaction = await Parking_User.findOne({
       where: {
         parking_Id: parkingId,
@@ -86,7 +85,7 @@ const calculateFinalPayment = async (req, res) => {
       },
     });
 
-    res.json( FinalPayment );
+    res.status(200).json( FinalPayment );
   } catch (error) {
     console.error("Error calculating payment:", error);
     res.status(500).json({ error: "Error calculating payment" });
@@ -107,7 +106,7 @@ const registerPayment = async (req, res) => {
         user_Id: userId,
       },
     });
-    res.json({ registerDate });
+    res.status(200).json({ registerDate });
   }catch(error){
     console.error("Error registering payment:", error);
     res.status(500).json({ error: "Error registering payment" });
@@ -123,10 +122,11 @@ const getParkingUserData = async (req, res) => {
       where: {
         parking_Id: parkingId,
         user_Id: userId,
+        exit_time: null,
       },
     });
 
-    res.json( info );
+    res.status(200).json( info );
   }catch(error){
     console.error("Error getting parking user data:", error);
     res.status(500).json({ error: "Error getting parking user data" });
@@ -143,8 +143,7 @@ const getHistory = async (req, res) => {
       },
     });
 
-    console.log(history);
-    res.json({ history });
+    res.status(200).json({ history });
   }catch(error){
     console.error("Error getting historial:", error);
     res.status(500).json({ error: "Error getting historial" });

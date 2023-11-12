@@ -3,6 +3,7 @@ const Reservation = db.parking_user;
 
 // Función para crear una reserva
 const createReservation = async (req, res) => {
+  console.log(req.body);
   try {
     const { user_id, parking_id, total_price, entry_time, exit_time, extra_fee } = req.body;
     
@@ -10,6 +11,7 @@ const createReservation = async (req, res) => {
       where: {
         parking_id: req.body.parking_id,
         user_id: req.body.user_id,
+        exit_time: null,
       },
     });
 
@@ -26,9 +28,8 @@ const createReservation = async (req, res) => {
       extra_fee: req.body.extra_fee,
     });
     // Devuelve la reserva creada en la respuesta
-    res.status(201).json(reservation);
+      res.status(201).json(reservation);
     }
-    
 
   } catch (error) {
     console.error("Error al crear la reserva:", error);
