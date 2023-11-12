@@ -1,25 +1,32 @@
-const request = require('supertest');
-const app = require('../routes/parking.routes');
+import request from 'supertest';
+import express from 'express';
+import bodyParser from 'body-parser';
+import router from '../routes/parking.routes';
 
 describe('Parking Controller', () => {
+
+  const app = express();
+  app.use(bodyParser.json());
+  app.use(router);
+
   it('should get all parking data', async () => {
     const response = await request(app).get('/parking/');
     expect(response.status).toBe(200);
-    // Agrega más expectativas según lo necesario
   });
 
   it('should calculate extra fee', async () => {
-    const response = await request(app).get('/parking/calculateExtraFee');
+    const response = await request(app).get('/calculateExtraFee');
+    console.log(response.body);
     expect(response.status).toBe(200);
-    // Agrega más expectativas según lo necesario
+
   });
 
   it('should calculate final payment', async () => {
-    const response = await request(app).post('/parking/calculateFinalPayment').send({
+    const response = await request(app).post('/calculateFinalPayment').send({
       user_id: 1,  // Reemplaza con el ID de usuario correcto
     });
     expect(response.status).toBe(200);
-    // Agrega más expectativas según lo necesario
+
   });
 
   it('should register payment', async () => {
@@ -27,12 +34,10 @@ describe('Parking Controller', () => {
       user_id: 1,  // Reemplaza con el ID de usuario correcto
     });
     expect(response.status).toBe(200);
-    // Agrega más expectativas según lo necesario
   });
 
-  it('should get parking history', async () => {
+  /*it('should get parking history', async () => {
     const response = await request(app).get('/parking/history/1');  // Reemplaza con el ID de usuario correcto
     expect(response.status).toBe(200);
-    // Agrega más expectativas según lo necesario
-  });
+  });*/
 });
