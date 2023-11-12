@@ -22,5 +22,17 @@ describe('Parking Controller', () => {
     // Agrega más expectativas según lo necesario
   });
 
+  it('should register payment', async () => {
+    const response = await request(app).post('/registerPayment').send({
+      user_id: 1,  // Reemplaza con el ID de usuario correcto
+    });
+    expect(response.status).toBe(200);
+    // Agrega más expectativas según lo necesario
+  });
 
+  it('should get parking history', async () => {
+    const response = await request(app).get('/parking/history/1');  // Reemplaza con el ID de usuario correcto
+    expect(response.status).toBe(200);
+    // Agrega más expectativas según lo necesario
+  });
 });
