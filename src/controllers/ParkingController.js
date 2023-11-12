@@ -35,6 +35,7 @@ const calculateExtraFee = async (req, res) => {
     const places = await Parking_User.findAll({
       where: {
         parking_id: parkingId,
+        exit_time: null
       },
     });
 
@@ -98,6 +99,9 @@ const registerPayment = async (req, res) => {
     const parkingId = 1;
     const userId = req.body.user_id;
 
+    console.log("userId: ", userId);
+    console.log("req: ", req.body);
+
     const registerDate = new Date();
     const transaction = await Parking_User.update({
       exit_time: registerDate,
@@ -123,6 +127,7 @@ const getParkingUserData = async (req, res) => {
       where: {
         parking_Id: parkingId,
         user_Id: userId,
+        exit_time: null,
       },
     });
 

@@ -10,6 +10,7 @@ const createReservation = async (req, res) => {
       where: {
         parking_id: req.body.parking_id,
         user_id: req.body.user_id,
+        exit_time: null,
       },
     });
 
