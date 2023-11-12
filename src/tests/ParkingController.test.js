@@ -23,21 +23,23 @@ describe('Parking Controller', () => {
 
   it('should calculate final payment', async () => {
     const response = await request(app).post('/calculateFinalPayment').send({
-      user_id: 1,  // Reemplaza con el ID de usuario correcto
+      user_id: 1,  //existing user
     });
     expect(response.status).toBe(200);
+  });
 
+  it('should not calculate final payment', async () => {
+    const response = await request(app).post('/calculateFinalPayment').send({
+      user_id: -999,  //not existing user
+    });
+    expect(response.status).toBe(500);
   });
 
   it('should register payment', async () => {
     const response = await request(app).post('/registerPayment').send({
-      user_id: 1,  // Reemplaza con el ID de usuario correcto
+      user_id: 1,  //existing user
     });
     expect(response.status).toBe(200);
   });
 
-  /*it('should get parking history', async () => {
-    const response = await request(app).get('/parking/history/1');  // Reemplaza con el ID de usuario correcto
-    expect(response.status).toBe(200);
-  });*/
 });
