@@ -3,6 +3,7 @@ const Reservation = db.parking_user;
 
 // Función para crear una reserva
 const createReservation = async (req, res) => {
+  console.log(req.body);
   try {
     const { user_id, parking_id, total_price, entry_time, exit_time, extra_fee } = req.body;
     
@@ -10,6 +11,7 @@ const createReservation = async (req, res) => {
       where: {
         parking_id: req.body.parking_id,
         user_id: req.body.user_id,
+        exit_time: null,
       },
     });
 
@@ -26,9 +28,8 @@ const createReservation = async (req, res) => {
       extra_fee: req.body.extra_fee,
     });
     // Devuelve la reserva creada en la respuesta
-    res.status(201).json(reservation);
+      res.status(201).json(reservation);
     }
-    
 
   } catch (error) {
     console.error("Error al crear la reserva:", error);
@@ -36,6 +37,33 @@ const createReservation = async (req, res) => {
   }
 };
 
+const getReservationByUserId = async (req, res) => {
+  try {
+    const { userId } = req.params;
+
+    // Busca una reserva con el user_id proporcionado y exit_time nulo
+    const reservation = await Reservation.findOne({
+      where: {
+        user_id: userId,
+        exit_time: null,
+      },
+    });
+
+    if (reservation) {
+      // Si se encuentra una reserva, devuélvela en la respuesta
+      res.status(200).json(reservation);
+    } else {
+      // Si no se encuentra ninguna reserva, devuelve un mensaje indicando eso
+      res.status(404).json({ message: "No se encontró ninguna reserva activa para este usuario." });
+    }
+
+  } catch (error) {
+    console.error("Error al obtener la reserva:", error);
+    res.status(500).json({ error: "Error al obtener la reserva" });
+  }
+};
+
 export const reservationController = {
   createReservation,
+  getReservationByUserId,
 };

@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { methods as ParkingController } from "../controllers/ParkingController";
-import { reservationController } from "../controllers/ReservationController"; // Asegúrate de importar correctamente el controlador de reservas
+import { reservationController } from "../controllers/ReservationController";
 
 const router = Router();
 
@@ -28,6 +28,9 @@ router.get("/parking/history/:userId", ParkingController.getHistory);
 router.post("/registerPayment", ParkingController.registerPayment);
 
 router.post("/parkinguserdata", ParkingController.getParkingUserData);
+
+// Ruta para obtener una reserva por user_id y exit_time nulo
+router.get("/reservations/user/:userId", reservationController.getReservationByUserId);
 
 // Otras rutas relacionadas con reservas...
 
