@@ -36,6 +36,33 @@ const createReservation = async (req, res) => {
   }
 };
 
+const getReservationByUserId = async (req, res) => {
+  try {
+    const { userId } = req.params;
+
+    // Busca una reserva con el user_id proporcionado y exit_time nulo
+    const reservation = await Reservation.findOne({
+      where: {
+        user_id: userId,
+        exit_time: null,
+      },
+    });
+
+    if (reservation) {
+      // Si se encuentra una reserva, devuélvela en la respuesta
+      res.status(200).json(reservation);
+    } else {
+      // Si no se encuentra ninguna reserva, devuelve un mensaje indicando eso
+      res.status(404).json({ message: "No se encontró ninguna reserva activa para este usuario." });
+    }
+
+  } catch (error) {
+    console.error("Error al obtener la reserva:", error);
+    res.status(500).json({ error: "Error al obtener la reserva" });
+  }
+};
+
 export const reservationController = {
   createReservation,
+  getReservationByUserId,
 };
