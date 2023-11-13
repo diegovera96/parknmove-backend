@@ -7,13 +7,15 @@ you have to execute the following commands in the  BASH command console:
 
 Database
 
-to execute the migrations and seeders you must modified the name of the file  .env.example to .env, then modified the password section with your password from workbench
+to execute the migrations and seeders you must modified the name of the file  .env.example to .env, then modified the password section with your password from workbench.
+Also add a variable that define the secret key for the token.
 
 ```bash
 	DB_HOST=localhost
 	DB_DATABASE=nombre_base_de_datos  //name of the database in workbench
 	DB_USER=root
 	DB_PASSWORD= //here goes the password
+    TOKEN_SECRET=mysecretkey
 ```
 
 Finally in the bash console, execute the following commands:
