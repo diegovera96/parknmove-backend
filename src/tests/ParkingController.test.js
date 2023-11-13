@@ -16,7 +16,7 @@ describe('Parking Controller', () => {
 
   it('should register payment', async () => {
     const response = await request(app).post('/registerPayment').send({
-      user_id: 16,  //existing user
+      user_id: 1,  //existing user
     });
     console.log("response: ", response.body);
     expect(response.status).toBe(200);
@@ -32,8 +32,8 @@ describe('Parking Controller', () => {
   it('should calculate final payment', async () => {
     let reservationDataInfo = {
         response: {
-        user_id: 16,
-        id: 2,
+        user_id: 1,
+        id: 1,
       }
     };
     const response = await request(app).post('/calculateFinalPayment').send({
