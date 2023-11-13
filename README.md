@@ -14,7 +14,7 @@ Para hacer las migraciones correspondientes y además utilizar los seeders, se d
 
 ```bash
 DB_HOST=localhost
-DB_DATABASE=test-express  //nombre de su db creada con workbech [rey]
+DB_DATABASE=nombre_base_de_datos  //nombre de su db creada con workbech
 DB_USER=root
 DB_PASSWORD= //Aqui va la contraseña de su base de datos
 ```
@@ -35,8 +35,3 @@ Para ejecutar el proyecto deben utilizar el siguiente comando.
 
 ```bash
     npm run dev
-```
- 
- falta nodemon [rey]
-
- npm install nodemon --save-dev
