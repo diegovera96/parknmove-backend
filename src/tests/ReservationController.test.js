@@ -6,7 +6,7 @@ import router from '../routes/parking.routes';
 describe('Reservation Controller', () => {
   it('should create a new reservation', async () => {
     const mockReservationData = {
-      user_id: 16,
+      user_id: 1,
       parking_id: 1,
       total_price: 20,
       entry_time: '2023-01-01T12:00:00.000Z',
@@ -32,7 +32,7 @@ describe('Reservation Controller', () => {
 
   it('should create not a new reservation again', async () => {
     const mockReservationData = {
-      user_id: 16,
+      user_id: 1,
       parking_id: 1,
       total_price: 20,
       entry_time: '2023-01-01T12:00:00.000Z',
