@@ -35,21 +35,16 @@ const calculateExtraFee = async (req, res) => {
     const places = await Parking_User.findAll({
       where: {
         parking_id: parkingId,
-        exit_time: null,
+        exit_time: null
       },
     });
 
     const parking = await Parking.findOne({
       where: {
-        id: parkingId,
+        id: parkingId, // Reemplaza con tu condición
       },
     });
-
-    var occupiedPlaces = places.length;
-    console.log("amount", occupiedPlaces);
-    if (occupiedPlaces === 0) {
-      occupiedPlaces = 1;
-    }
+    const occupiedPlaces = places.length;
     const totalPlaces = parking.floor_count * parking.places_per_floor;
     const ExtraFee = (parking.base_price * occupiedPlaces) / totalPlaces;
 
@@ -63,12 +58,15 @@ const calculateExtraFee = async (req, res) => {
 const calculateFinalPayment = async (req, res) => {
   try {
     const parkingId = 1;
-    const userId = req.body.reservationDataInfo.response.user_id;
+    const userId = req.body.user_id;
     const transaction = await Parking_User.findOne({
       where: {
-        id: req.body.reservationDataInfo.response.id,
+        parking_Id: parkingId,
+        user_Id: userId,
+        // Reemplaza con tu condición
       },
     });
+
     const parking = await Parking.findOne({
       where: {
         id: parkingId, // Reemplaza con tu condición
@@ -82,8 +80,8 @@ const calculateFinalPayment = async (req, res) => {
       total_price: FinalPayment,
     }, {
       where: {
-        parking_id: parkingId,
-        user_id: userId,
+        parking_Id: parkingId,
+        user_Id: userId,
       },
     });
 
