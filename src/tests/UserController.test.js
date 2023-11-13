@@ -2,9 +2,10 @@ import request from 'supertest';
 import express from 'express';
 import bodyParser from 'body-parser';
 import router from '../routes/user.routes';
+import { User } from '../models';
 
 describe('User Controller', () => {
-  let token; // Almacenará el token de autenticación para las pruebas
+  let token;
   const app = express();
   app.use(bodyParser.json());
   app.use(router);
@@ -27,7 +28,7 @@ describe('User Controller', () => {
     } catch (error) {
       throw error;
     }
-  }, 15000); // Aumentamos el timeout a 15 segundos
+  }, 15000);
 
   afterAll(async () => {
 
@@ -45,8 +46,22 @@ describe('User Controller', () => {
       });
 
     expect(response.status).toBe(201);
-    expect(response.  body.message).toBe('Usuario creado exitosamente');
+    expect(response.body.message).toBe('Usuario creado exitosamente');
     expect(response.body.token).toBeDefined();
+  });
+
+  it('should not register a new user again', async () => {
+    const response = await request(app)
+      .post('/user/register')
+      .send({
+        name: 'NewUser',
+        lastname: 'NewLastName',
+        email: 'newuser@example.com',
+        password: 'newpassword',
+        priority: 1,
+      });
+
+    expect(response.status).toBe(400);
   });
 
   it('should fail to register a user with invalid parameters', async () => {

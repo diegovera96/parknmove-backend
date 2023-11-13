@@ -87,6 +87,11 @@ const calculateFinalPayment = async (req, res) => {
       },
     });
 
+    console.log("transaction: ", transaction);
+    console.log("parking: ", parking);
+    console.log("FinalPayment: ", FinalPayment);
+    console.log("paymentUpdate: ", paymentUpdate);
+
     res.status(200).json( FinalPayment );
   } catch (error) {
     console.error("Error calculating payment:", error);
