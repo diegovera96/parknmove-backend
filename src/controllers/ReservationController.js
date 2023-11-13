@@ -24,7 +24,7 @@ const createReservation = async (req, res) => {
       parking_id: req.body.parking_id,
       total_price: 0,
       entry_time: req.body.entry_time,
-      exit_time: req.body.exit_time,
+      exit_time: null,
       extra_fee: req.body.extra_fee,
     });
     // Devuelve la reserva creada en la respuesta
