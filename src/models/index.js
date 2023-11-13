@@ -11,6 +11,17 @@ const sequelize = new Sequelize(
     host: process.env.DB_HOST,
     dialect: "mysql",
     operatorsAliases: false,
+    retry: {
+      match: [
+        Sequelize.ConnectionError,
+        Sequelize.ConnectionTimedOutError,
+        Sequelize.TimeoutError,
+        Sequelize.ConnectionRefusedError,
+      ],
+      max: 10,
+      backoffBase: 5000,
+      backoffExponent: 1.5,
+    },
   }
 );
 
