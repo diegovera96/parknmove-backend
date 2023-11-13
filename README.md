@@ -1,37 +1,31 @@
-## Introducción
-
-Antes de realizar cualquier cosa, se debe tener instalado [NodeJS 18.18.0](https://nodejs.org/es) y [MySQL Workbench 8.1.0](https://dev.mysql.com/downloads/mysql/) en el equipo. Además de tener instalado el CLI de sequelize.
-Para esto, se deben ejecutar los siguientes comandos en la consola:
-
+Before anything, you must have installed [NodeJS 18.18.0](https://nodejs.org/es) and [MySQL Workbench 8.1.0](https://dev.mysql.com/downloads/mysql/) in your device, also you have to install the sequelize´s CLI, to do this
+you have to execute the following commands in the  BASH command console:
 ```bash
-    npm install -g sequelize-cli
-    npm install
+	npm install -g sequelize-cli
+	npm install
 ```
 
-# Bases de datos
+Database
 
-Para hacer las migraciones correspondientes y además utilizar los seeders, se debe modificar el nombre del archivo **.env.example** a **.env**. Luego se debe modificar el apartado de la contraseña.
+to execute the migrations and seeders you must modified the name of the file  .env.example to .env, then modified the password section with your password from workbench
 
 ```bash
-DB_HOST=localhost
-DB_DATABASE=nombre_base_de_datos  //nombre de su db creada con workbech
-DB_USER=root
-DB_PASSWORD= //Aqui va la contraseña de su base de datos
+	DB_HOST=localhost
+	DB_DATABASE=nombre_base_de_datos  //name of the database in workbench
+	DB_USER=root
+	DB_PASSWORD= //here goes the password
 ```
 
-Finalmente en la consola ejecutan estos tres comandos:
+Finally in the bash console, execute the following commands:
 
 ```bash
-    sequelize db:create
-    sequelize db:migrate
-    sequelize db:seed:all
+	sequelize db:create
+	sequelize db:migrate
+	sequelize db:seed:all
 ```
 
-Con eso, tienen la base de datos en MySQL con los datos de prueba.
-
-# Ejecutar el proyecto
-
-Para ejecutar el proyecto deben utilizar el siguiente comando.
+Now you can run the project with following command in the bash console
 
 ```bash
-    npm run dev
+	npm run dev
+```
