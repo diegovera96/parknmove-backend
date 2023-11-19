@@ -38,7 +38,7 @@ describe('User Controller', () => {
     const response = await request(app)
       .post('/user/register')
       .send({
-        name: 'NewUser',
+        name: '',
         lastname: 'NewLastName',
         email: 'newuser@example.com',
         password: 'newpassword',
@@ -54,9 +54,9 @@ describe('User Controller', () => {
     const response = await request(app)
       .post('/user/register')
       .send({
-        name: 'NewUser',
+        name: '',
         lastname: 'NewLastName',
-        email: 'newuser@example.com',
+        email: 'newuser2@example.com',
         password: 'newpassword',
         priority: 1,
       });

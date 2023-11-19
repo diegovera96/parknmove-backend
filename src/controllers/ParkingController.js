@@ -157,6 +157,17 @@ const getHistory = async (req, res) => {
   }
 }
 
+const getParkings = async (req, res) => {
+  try {
+    const parkings = await Parking.findAll({
+      attributes: ["id", "name", "address", "base_price", "floor_count", "places_per_floor"],
+    });
+    res.status(200).json({ parkings });
+  } catch (error) {
+    res.status(500).json({ message: "Error en el servidor" });
+  }
+}
+
 export const methods = {
   getAllParkingData,
   calculateExtraFee,
@@ -164,5 +175,6 @@ export const methods = {
   getHistory,
   getOccupiedSpaces,
   registerPayment,
-  getParkingUserData
+  getParkingUserData,
+  getParkings,
 };

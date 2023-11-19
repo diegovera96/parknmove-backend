@@ -32,7 +32,7 @@ describe('Parking Controller', () => {
   it('should calculate final payment', async () => {
     let reservationDataInfo = {
         response: {
-        user_id: 1,
+        user_id: -5,
         id: 1,
       }
     };
@@ -44,7 +44,7 @@ describe('Parking Controller', () => {
   });
 
   it('should not calculate final payment', async () => {
-    const response = await request(app).post('/calculateFinalPayment').send({
+    const response = await request(app).post('/calculateFinalPaymen').send({
       user_id: -999,  //not existing user
     });
     expect(response.status).toBe(500);
