@@ -34,4 +34,11 @@ router.get("/reservations/user/:userId", reservationController.getReservationByU
 
 router.get("/parking/getParkings", ParkingController.getParkings);
 
+//ruta para obtener el historial de un parking
+router.get("/parking/report", ParkingController.getHistoryParking);
+
+router.post("/parking/editPrice", ParkingController.editPrice);
+
+router.post("/parking/editParking", ParkingController.editParking);
+
 export default router;
