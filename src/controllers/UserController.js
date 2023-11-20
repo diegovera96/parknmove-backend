@@ -126,3 +126,14 @@ exports.login = async (req, res) => {
     res.status(500).json({ message: "Error en el servidor" });
   }
 };
+
+exports.getUsers = async (req, res) => {
+  try {
+    const users = await User.findAll({
+      attributes: ["id", "name", "lastname", "email", "priority"],
+    });
+    res.status(200).json({ users });
+  } catch (error) {
+    res.status(500).json({ message: "Error en el servidor" });
+  }
+}

@@ -1,5 +1,5 @@
 "use strict";
-
+var crypto = require("crypto");
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
@@ -18,8 +18,11 @@ module.exports = {
         {
           name: "John",
           lastname: "Lopez",
-          email: "lol@gmail.com",
-          password: "1234",
+          email: "example@gmail.com",
+          password: crypto
+            .createHmac("sha256", process.env.TOKEN_SECRET)
+            .update("password")
+            .digest("hex"),
           priority: 1,
           createdAt: new Date(),
           updatedAt: new Date(),

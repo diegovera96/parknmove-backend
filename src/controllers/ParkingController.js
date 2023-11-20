@@ -35,16 +35,21 @@ const calculateExtraFee = async (req, res) => {
     const places = await Parking_User.findAll({
       where: {
         parking_id: parkingId,
-        exit_time: null
+        exit_time: null,
       },
     });
 
     const parking = await Parking.findOne({
       where: {
-        id: parkingId, // Reemplaza con tu condición
+        id: parkingId,
       },
     });
-    const occupiedPlaces = places.length;
+
+    var occupiedPlaces = places.length;
+    console.log("amount", occupiedPlaces);
+    if (occupiedPlaces === 0) {
+      occupiedPlaces = 1;
+    }
     const totalPlaces = parking.floor_count * parking.places_per_floor;
     const ExtraFee = (parking.base_price * occupiedPlaces) / totalPlaces;
 
@@ -58,15 +63,12 @@ const calculateExtraFee = async (req, res) => {
 const calculateFinalPayment = async (req, res) => {
   try {
     const parkingId = 1;
-    const userId = req.body.user_id;
+    const userId = req.body.reservationDataInfo.response.user_id;
     const transaction = await Parking_User.findOne({
       where: {
-        parking_Id: parkingId,
-        user_Id: userId,
-        // Reemplaza con tu condición
+        id: req.body.reservationDataInfo.response.id,
       },
     });
-
     const parking = await Parking.findOne({
       where: {
         id: parkingId, // Reemplaza con tu condición
@@ -80,10 +82,15 @@ const calculateFinalPayment = async (req, res) => {
       total_price: FinalPayment,
     }, {
       where: {
-        parking_Id: parkingId,
-        user_Id: userId,
+        parking_id: parkingId,
+        user_id: userId,
       },
     });
+
+    console.log("transaction: ", transaction);
+    console.log("parking: ", parking);
+    console.log("FinalPayment: ", FinalPayment);
+    console.log("paymentUpdate: ", paymentUpdate);
 
     res.status(200).json( FinalPayment );
   } catch (error) {
@@ -150,6 +157,17 @@ const getHistory = async (req, res) => {
   }
 }
 
+const getParkings = async (req, res) => {
+  try {
+    const parkings = await Parking.findAll({
+      attributes: ["id", "name", "address", "base_price", "floor_count", "places_per_floor"],
+    });
+    res.status(200).json({ parkings });
+  } catch (error) {
+    res.status(500).json({ message: "Error en el servidor" });
+  }
+}
+
 export const methods = {
   getAllParkingData,
   calculateExtraFee,
@@ -157,5 +175,6 @@ export const methods = {
   getHistory,
   getOccupiedSpaces,
   registerPayment,
-  getParkingUserData
+  getParkingUserData,
+  getParkings,
 };
