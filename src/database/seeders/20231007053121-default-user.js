@@ -3,27 +3,42 @@ var crypto = require("crypto");
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    /**
-     * Add seed commands here.
-     *
-     * Example:
-     * await queryInterface.bulkInsert('People', [{
-     *   name: 'John Doe',
-     *   isBetaMember: false
-     * }], {});
-     */
     await queryInterface.bulkInsert(
       "users",
       [
         {
-          name: "John",
-          lastname: "Lopez",
-          email: "example@gmail.com",
+          name: "Diego",
+          lastname: "Aguilera",
+          email: "admin@parknmove.com",
           password: crypto
             .createHmac("sha256", process.env.TOKEN_SECRET)
             .update("password")
             .digest("hex"),
           priority: 1,
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        },
+        {
+          name: "Diego",
+          lastname: "Vera",
+          email: "diego@example.com",
+          password: crypto
+            .createHmac("sha256", process.env.TOKEN_SECRET)
+            .update("password")
+            .digest("hex"),
+          priority: 0,
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        },
+        {
+          name: "Vicente",
+          lastname: "Alarcón",
+          email: "vicente@example.com",
+          password: crypto
+            .createHmac("sha256", process.env.TOKEN_SECRET)
+            .update("password")
+            .digest("hex"),
+          priority: 0,
           createdAt: new Date(),
           updatedAt: new Date(),
         },
@@ -36,8 +51,8 @@ module.exports = {
       [
         {
           admin_id: 1,
-          name: "Parking 1",
-          address: "Calle 123",
+          name: "Estacionamiento Las Americas",
+          address: "Calle 1 # 1-1",
           base_price: 100,
           floor_count: 2,
           places_per_floor: 10,
