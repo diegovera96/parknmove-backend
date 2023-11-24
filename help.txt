@@ -1,0 +1,30 @@
+BACKEND
+DEBUG=serve:* npm start
+mysql -u express -p
+SHOW DATABASES;
+USE db_de_prueba;
+SELECT * FROM tabla_de_prueba;
+DELETE FROM tabla_de_prueba LIMIT 1;
+ALTER TABLE tabla_de_prueba AUTO_INCREMENT = 2;
+
+consulta mysql orm
+vista
+hash
+
+npm install jsonwebtoken
+npm install crypto
+
+IONIC
+ionic serve
+npm install vuex qs axios --save
+
+CREATE TABLE users2 (
+id INT NOT NULL AUTO_INCREMENT,
+name VARCHAR(255) NOT NULL,
+email VARCHAR(255) NOT NULL,
+password VARCHAR(255) NOT NULL,
+priority INT NOT NULL,
+PRIMARY KEY (id));
+
+si ya reservo, mandar a la vista de datos de la reserva pero necesito recibir la id del usuario logiado para que haga la busqueda de su reserva
+si no ha reservvado, vista de donde peude generar reserva
