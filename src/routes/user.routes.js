@@ -10,5 +10,6 @@ router.use(express.json());
 router.post("/user/register", UserController.register);
 router.post("/user/login", UserController.login);
 router.get("/user/getUsers", UserController.getUsers);
+router.put("/user/updateUser", UserController.updateUser);
 
 module.exports = router;

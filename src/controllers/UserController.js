@@ -127,6 +127,25 @@ exports.login = async (req, res) => {
   }
 };
 
+exports.updateUser = async (req, res) => {
+  try {
+    const { id, name, lastname, email, priority } = req.body;
+    const user = await User.findOne({ where: { id } });
+    if (user) {
+      user.name = name;
+      user.lastname = lastname;
+      user.email = email;
+      user.priority = priority;
+      await user.save();
+      res.status(200).json({ message: "Usuario actualizado exitosamente" });
+    } else {
+      res.status(400).json({ message: "Usuario no encontrado" });
+    }
+  } catch (error) {
+    res.status(500).json({ message: "Error en el servidor" });
+  }
+};
+
 exports.getUsers = async (req, res) => {
   try {
     const users = await User.findAll({
