@@ -15,5 +15,6 @@ router.post("/user/login", UserController.login);
 router.use(AuthenticateToken);
 router.get("/user/getUsers", UserController.getUsers);
 router.put("/user/updateUser", UserController.updateUser);
+router.post("/user/searchUser", UserController.searchUser);
 
 module.exports = router;

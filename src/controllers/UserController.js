@@ -5,6 +5,7 @@ var crypto = require("crypto");
 const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const jwt = require("jsonwebtoken");
 const dotenv = require("dotenv");
+const { Op, literal } = require("sequelize");
 
 dotenv.config();
 
@@ -152,6 +153,28 @@ exports.getUsers = async (req, res) => {
       attributes: ["id", "name", "lastname", "email", "priority"],
     });
     res.status(200).json({ users });
+  } catch (error) {
+    res.status(500).json({ message: "Error en el servidor" });
+  }
+}
+
+exports.searchUser = async (req, res) => {
+  try {
+    const { searchData } = req.body;
+
+    const user = await User.findAll({ where: { 
+      [Op.or]: [
+        { name: { [Op.substring]: `%${searchData}` } },
+        { lastname: { [Op.substring]: `%${searchData}` } },
+        { email: { [Op.substring]: `%${searchData}` } },
+      ]
+    }});
+    //console.log(user);
+    if (user) {
+      res.status(200).json({ user });
+    } else {
+      res.status(400).json({ message: "Usuario no encontrado" });
+    }
   } catch (error) {
     res.status(500).json({ message: "Error en el servidor" });
   }
