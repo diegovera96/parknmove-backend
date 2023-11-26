@@ -67,7 +67,7 @@ const getHistory = async (req, res) => {
   try{
     
 
-    const history = await Parking_User.findAll({
+    const history = await Reservation.findAll({
     });
 
     res.status(200).json({ history });
