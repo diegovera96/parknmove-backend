@@ -130,13 +130,30 @@ exports.login = async (req, res) => {
 
 exports.updateUser = async (req, res) => {
   try {
-    const { id, name, lastname, email, priority } = req.body;
+    
+    const { id, name, lastname, email, priority } = req.body.user;
     const user = await User.findOne({ where: { id } });
     if (user) {
-      user.name = name;
-      user.lastname = lastname;
-      user.email = email;
-      user.priority = priority;
+      if(name === ""){
+        user.name = user.name;
+      } else {
+        user.name = name;
+      }
+      if(lastname === ""){
+        user.lastname = user.lastname;
+      } else {
+        user.lastname = lastname;
+      }
+      if(email === ""){
+        user.email = user.email;
+      } else {
+        user.email = email;
+      }
+      if(priority === ""){
+        user.priority = user.priority;
+      } else {
+        user.priority = priority;
+      }
       await user.save();
       res.status(200).json({ message: "Usuario actualizado exitosamente" });
     } else {
@@ -169,7 +186,6 @@ exports.searchUser = async (req, res) => {
         { email: { [Op.substring]: `%${searchData}` } },
       ]
     }});
-    //console.log(user);
     if (user) {
       res.status(200).json({ user });
     } else {
