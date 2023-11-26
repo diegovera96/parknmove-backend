@@ -136,4 +136,16 @@ exports.getUsers = async (req, res) => {
   } catch (error) {
     res.status(500).json({ message: "Error en el servidor" });
   }
+};
+
+exports.getUser = async (req, res) => { 
+  try {
+    const user = await User.findOne({
+      where: { id: req.params.userId },
+      attributes: ["name", "lastname"],
+    });
+    res.status(200).json({ user });
+  } catch (error) {
+    res.status(500).json({ message: "Error en el servidor" });
+  }
 }
