@@ -43,4 +43,6 @@ router.post("/parking/editPrice", ParkingController.editPrice);
 
 router.put("/parking/editParking/:parkingId", ParkingController.editParking);
 
+router.get("/reservations/history" , reservationController.getHistory)
+
 export default router;

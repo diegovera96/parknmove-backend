@@ -63,7 +63,22 @@ const getReservationByUserId = async (req, res) => {
   }
 };
 
+const getHistory = async (req, res) => {
+  try{
+    
+
+    const history = await Parking_User.findAll({
+    });
+
+    res.status(200).json({ history });
+  }catch(error){
+    console.error("Error getting historial:", error);
+    res.status(500).json({ error: "Error getting historial" });
+  }
+}
+
 export const reservationController = {
   createReservation,
   getReservationByUserId,
+  getHistory,
 };
