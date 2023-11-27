@@ -21,7 +21,8 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
 
 // Habilita CORS para permitir solicitudes desde cualquier dominio
-app.use(cors());
+
+app.use(cors({ credentials: true }));
 app.use(bodyParser.urlencoded({ extended: false }));
 // Configura bodyParser para parsear JSON
 app.use(bodyParser.json());
