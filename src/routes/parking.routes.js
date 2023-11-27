@@ -41,7 +41,7 @@ router.get("/parking/report", ParkingController.getHistoryParking);
 
 router.post("/parking/editPrice", ParkingController.editPrice);
 
-router.put("/parking/editParking/:parkingId", ParkingController.editParking);
+router.put("/parking/editParking", ParkingController.editParking);
 
 router.get("/reservations/history" , reservationController.getHistory)
 

@@ -203,18 +203,16 @@ const editPrice = async (req, res) => {
 }
 
 const editParking = async (req, res) => {
+  console.log(req.body)
   try {
-    const parkingId = req.params.parkingId;
     const newParking = req.body.newParking;
     const parking = await Parking.update({
-      name: newParking.name,
-      address: newParking.address,
       floor_count: newParking.floor_count,
       places_per_floor: newParking.places_per_floor,
       base_price: newParking.base_price,
     }, {
       where: {
-        id: parkingId,
+        id: newParking.id,
       },
     });
     res.status(200).json({ parking });
