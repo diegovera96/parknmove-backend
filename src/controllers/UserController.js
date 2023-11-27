@@ -5,6 +5,7 @@ var crypto = require("crypto");
 const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const jwt = require("jsonwebtoken");
 const dotenv = require("dotenv");
+const { Op, literal } = require("sequelize");
 
 dotenv.config();
 
@@ -127,12 +128,69 @@ exports.login = async (req, res) => {
   }
 };
 
+exports.updateUser = async (req, res) => {
+  try {
+    
+    const { id, name, lastname, email, priority } = req.body.user;
+    const user = await User.findOne({ where: { id } });
+    if (user) {
+      if(name === ""){
+        user.name = user.name;
+      } else {
+        user.name = name;
+      }
+      if(lastname === ""){
+        user.lastname = user.lastname;
+      } else {
+        user.lastname = lastname;
+      }
+      if(email === ""){
+        user.email = user.email;
+      } else {
+        user.email = email;
+      }
+      if(priority === ""){
+        user.priority = user.priority;
+      } else {
+        user.priority = priority;
+      }
+      await user.save();
+      res.status(200).json({ message: "Usuario actualizado exitosamente" });
+    } else {
+      res.status(400).json({ message: "Usuario no encontrado" });
+    }
+  } catch (error) {
+    res.status(500).json({ message: "Error en el servidor" });
+  }
+};
+
 exports.getUsers = async (req, res) => {
   try {
     const users = await User.findAll({
       attributes: ["id", "name", "lastname", "email", "priority"],
     });
     res.status(200).json({ users });
+  } catch (error) {
+    res.status(500).json({ message: "Error en el servidor" });
+  }
+}
+
+exports.searchUser = async (req, res) => {
+  try {
+    const { searchData } = req.body;
+
+    const user = await User.findAll({ where: { 
+      [Op.or]: [
+        { name: { [Op.substring]: `%${searchData}` } },
+        { lastname: { [Op.substring]: `%${searchData}` } },
+        { email: { [Op.substring]: `%${searchData}` } },
+      ]
+    }});
+    if (user) {
+      res.status(200).json({ user });
+    } else {
+      res.status(400).json({ message: "Usuario no encontrado" });
+    }
   } catch (error) {
     res.status(500).json({ message: "Error en el servidor" });
   }
