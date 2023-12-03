@@ -130,9 +130,10 @@ exports.login = async (req, res) => {
 
 exports.updateUser = async (req, res) => {
   try {
-    
+    console.log(req.body.user);
     const { id, name, lastname, email, priority } = req.body.user;
     const user = await User.findOne({ where: { id } });
+    console.log(user);
     if (user) {
       if(name === ""){
         user.name = user.name;
@@ -147,13 +148,19 @@ exports.updateUser = async (req, res) => {
       if(email === ""){
         user.email = user.email;
       } else {
-        user.email = email;
+        const existingUser = await User.findOne({ where: { email } });
+        if (existingUser && existingUser.id != id) {
+          return res.status(400).json({ message: "Correo ya registrado" });
+        } else {
+          user.email = email;
+        }
       }
       if(priority === ""){
         user.priority = user.priority;
       } else {
         user.priority = priority;
       }
+      console.log("2",user);
       await user.save();
       res.status(200).json({ message: "Usuario actualizado exitosamente" });
     } else {
