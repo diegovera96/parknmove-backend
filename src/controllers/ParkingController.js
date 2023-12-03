@@ -157,12 +157,80 @@ const getHistory = async (req, res) => {
   }
 }
 
+const getHistoryParking = async (req, res) => {
+  try{
+    const ParkingId = req.params.ParkingId;
+
+    const history = await Parking_User.findAll({
+      where: {
+        parking_Id: ParkingId,
+      },
+    });
+
+    res.status(200).json({ history });
+  }catch(error){
+    console.error("Error getting historial:", error);
+    res.status(500).json({ error: "Error getting historial" });
+  }
+}
+
 const getParkings = async (req, res) => {
   try {
     const parkings = await Parking.findAll({
       attributes: ["id", "name", "address", "base_price", "floor_count", "places_per_floor"],
     });
     res.status(200).json({ parkings });
+  } catch (error) {
+    res.status(500).json({ message: "Error en el servidor" });
+  }
+}
+
+const editPrice = async (req, res) => {
+  try {
+    const parkingId = req.body.parkingId;
+    const newBasePrice = req.body.newBasePrice;
+    const parking = await Parking.update({
+      base_price: newBasePrice,
+    }, {
+      where: {
+        id: parkingId,
+      },
+    });
+    res.status(200).json({ parking });
+  } catch (error) {
+    res.status(500).json({ message: "Error en el servidor" });
+  }
+}
+
+const editParking = async (req, res) => {
+  console.log(req.body)
+  try {
+    const newParking = req.body.newParking;
+    const parking = await Parking.update({
+      floor_count: newParking.floor_count,
+      places_per_floor: newParking.places_per_floor,
+      base_price: newParking.base_price,
+    }, {
+      where: {
+        id: newParking.id,
+      },
+    });
+    res.status(200).json({ parking });
+  } catch (error) {
+    res.status(500).json({ message: "Error en el servidor" });
+  }
+}
+
+const getParking = async (req, res) => {
+  try {
+    const parkingId = req.params.parkingId;
+    const parking = await Parking.findOne({
+      where: {
+        id: parkingId,
+        attributes: ["Address"],
+      },
+    });
+    res.status(200).json({ parking });
   } catch (error) {
     res.status(500).json({ message: "Error en el servidor" });
   }
@@ -177,4 +245,8 @@ export const methods = {
   registerPayment,
   getParkingUserData,
   getParkings,
+  editPrice,
+  editParking,
+  getHistoryParking,
+  getParking,
 };

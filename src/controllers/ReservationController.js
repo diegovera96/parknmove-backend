@@ -1,5 +1,9 @@
 const db = require("../models");
 const Reservation = db.parking_user;
+const User = db.user;
+const Parking = db.parking;
+import UserModel from '../models/UserModel'; 
+import ParkingModel from '../models/ParkingModel';
 
 // Función para crear una reserva
 const createReservation = async (req, res) => {
@@ -63,7 +67,36 @@ const getReservationByUserId = async (req, res) => {
   }
 };
 
+const getHistory = async (req, res) => {
+  try{
+    let history = await Reservation.findAll();
+
+    for (let i = 0; i < history.length; i++) {
+      const user = await User.findOne({
+        where: {
+          id: history[i].user_id,
+        },
+        attributes: ['name', 'lastname'], // Solo recuperar firstName y lastName
+      });
+      const parking = await Parking.findOne({
+        where: {
+          id: history[i].parking_id,
+        },
+        attributes: ['address'], // Solo recuperar address
+      });
+      history[i].dataValues.userName = user.name;
+      history[i].dataValues.userLastName = user.lastname;
+      history[i].dataValues.parkingAddress = parking.address;
+    }
+    res.status(200).json({ history });
+  }catch(error){
+    console.error("Error getting historial:", error);
+    res.status(500).json({ error: "Error getting historial" });
+  }
+};
+
 export const reservationController = {
   createReservation,
   getReservationByUserId,
+  getHistory,
 };
