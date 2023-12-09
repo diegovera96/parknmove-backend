@@ -67,6 +67,7 @@ exports.register = async (req, res) => {
       name: user.name,
       lastname: user.lastname,
       email: user.email,
+      priority: user.priority,
       // Agrega otros campos necesarios aquí
     };
 
@@ -108,6 +109,7 @@ exports.login = async (req, res) => {
       name: existingUser.name,
       lastname: existingUser.lastname,
       email: existingUser.email,
+      priority: existingUser.priority,
     };
     //Verificar si la contraseña es correcta
     if (passwordHash === existingUser.password) {
@@ -135,17 +137,17 @@ exports.updateUser = async (req, res) => {
     const user = await User.findOne({ where: { id } });
     console.log(user);
     if (user) {
-      if(name === ""){
+      if (name === "") {
         user.name = user.name;
       } else {
         user.name = name;
       }
-      if(lastname === ""){
+      if (lastname === "") {
         user.lastname = user.lastname;
       } else {
         user.lastname = lastname;
       }
-      if(email === ""){
+      if (email === "") {
         user.email = user.email;
       } else {
         const existingUser = await User.findOne({ where: { email } });
@@ -155,12 +157,12 @@ exports.updateUser = async (req, res) => {
           user.email = email;
         }
       }
-      if(priority === ""){
+      if (priority === "") {
         user.priority = user.priority;
       } else {
         user.priority = priority;
       }
-      console.log("2",user);
+      console.log("2", user);
       await user.save();
       res.status(200).json({ message: "Usuario actualizado exitosamente" });
     } else {
@@ -182,7 +184,7 @@ exports.getUsers = async (req, res) => {
   }
 };
 
-exports.getUser = async (req, res) => { 
+exports.getUser = async (req, res) => {
   try {
     const user = await User.findOne({
       where: { id: req.params.userId },
@@ -192,20 +194,21 @@ exports.getUser = async (req, res) => {
   } catch (error) {
     res.status(500).json({ message: "Error en el servidor" });
   }
-}
-
+};
 
 exports.searchUser = async (req, res) => {
   try {
     const { searchData } = req.body;
 
-    const user = await User.findAll({ where: { 
-      [Op.or]: [
-        { name: { [Op.substring]: `%${searchData}` } },
-        { lastname: { [Op.substring]: `%${searchData}` } },
-        { email: { [Op.substring]: `%${searchData}` } },
-      ]
-    }});
+    const user = await User.findAll({
+      where: {
+        [Op.or]: [
+          { name: { [Op.substring]: `%${searchData}` } },
+          { lastname: { [Op.substring]: `%${searchData}` } },
+          { email: { [Op.substring]: `%${searchData}` } },
+        ],
+      },
+    });
     if (user) {
       res.status(200).json({ user });
     } else {
@@ -214,4 +217,4 @@ exports.searchUser = async (req, res) => {
   } catch (error) {
     res.status(500).json({ message: "Error en el servidor" });
   }
-}
+};
