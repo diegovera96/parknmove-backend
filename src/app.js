@@ -22,7 +22,7 @@ app.use(express.static(path.join(__dirname, "public")));
 
 // Habilita CORS para permitir solicitudes desde cualquier dominio
 
-app.use(cors({ credentials: true, origin: true }));
+app.use(cors({ origin: true, credentials: true }));
 app.use(bodyParser.urlencoded({ extended: false }));
 // Configura bodyParser para parsear JSON
 app.use(bodyParser.json());
