@@ -1,3 +1,4 @@
+import app from '../app';
 const db = require("../models");
 const Parking = db.parking;
 const Parking_User = db.parking_user;
@@ -17,10 +18,9 @@ const getOccupiedSpaces = async (req, res) => {
   try {
     const occupiedSpaces = await Parking_User.findAll({
       where: {
-        exit_time: null,
+        total_price: 0,
       },
     });
-
     res.json(occupiedSpaces.length);
   } catch (error) {
     console.error("Error fetching occupied spaces:", error);
@@ -35,7 +35,7 @@ const calculateExtraFee = async (req, res) => {
     const places = await Parking_User.findAll({
       where: {
         parking_id: parkingId,
-        exit_time: null,
+        total_price: 0,
       },
     });
 
@@ -46,13 +46,11 @@ const calculateExtraFee = async (req, res) => {
     });
 
     var occupiedPlaces = places.length;
-    console.log("amount", occupiedPlaces);
     if (occupiedPlaces === 0) {
       occupiedPlaces = 1;
     }
     const totalPlaces = parking.floor_count * parking.places_per_floor;
     const ExtraFee = (parking.base_price * occupiedPlaces) / totalPlaces;
-
     res.status(200).json({ ExtraFee });
   } catch (error) {
     console.error("Error calculating total places:", error);
@@ -66,31 +64,26 @@ const calculateFinalPayment = async (req, res) => {
     const userId = req.body.reservationDataInfo.response.user_id;
     const transaction = await Parking_User.findOne({
       where: {
-        id: req.body.reservationDataInfo.response.id,
+        user_id: userId,
+        total_price: 0,
       },
+      order: [['entry_time', 'DESC']],
     });
+    console.log("transactionCalculate: ", transaction);
+    const id = transaction.id;
     const parking = await Parking.findOne({
       where: {
-        id: parkingId, // Reemplaza con tu condición
+        id: parkingId,
       },
     });
-
+    console.log("entry_time: ", transaction.entry_time);
+    console.log("exit_time: ", transaction.exit_time);
     const dateToHours = (transaction.exit_time - transaction.entry_time)/3600000;
     const FinalPayment = Math.round(parking.base_price + transaction.extra_fee * dateToHours);
 
-    const paymentUpdate = await Parking_User.update({
+    await transaction.update({
       total_price: FinalPayment,
-    }, {
-      where: {
-        parking_id: parkingId,
-        user_id: userId,
-      },
     });
-
-    console.log("transaction: ", transaction);
-    console.log("parking: ", parking);
-    console.log("FinalPayment: ", FinalPayment);
-    console.log("paymentUpdate: ", paymentUpdate);
 
     res.status(200).json( FinalPayment );
   } catch (error) {
@@ -104,14 +97,16 @@ const registerPayment = async (req, res) => {
     const parkingId = 1;
     const userId = req.body.user_id;
 
-    const registerDate = new Date();
-    const transaction = await Parking_User.update({
-      exit_time: registerDate,
-    }, {
+    var registerDate = new Date().toLocaleString("es-CL");
+    const transaction = await Parking_User.findOne({
       where: {
-        parking_Id: parkingId,
-        user_Id: userId,
+        user_id: userId,
+        total_price: 0,
       },
+    });
+    
+    await transaction.update({
+      exit_time: new Date(registerDate).toLocaleString("es-CL"),
     });
     res.status(200).json({ registerDate });
   }catch(error){
@@ -129,10 +124,9 @@ const getParkingUserData = async (req, res) => {
       where: {
         parking_Id: parkingId,
         user_Id: userId,
-        exit_time: null,
+        total_price: 0,
       },
     });
-
     res.status(200).json( info );
   }catch(error){
     console.error("Error getting parking user data:", error);

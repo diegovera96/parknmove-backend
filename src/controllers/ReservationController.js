@@ -23,14 +23,16 @@ const createReservation = async (req, res) => {
       res.status(400).json({ error: "Ya existe una reserva con ese usuario y estacionamiento" });
     } else {
       // Crea una nueva reserva en la base de datos
+      var entryTime = new Date(req.body.entry_time).toLocaleString("es-CL");
       const reservation = await Reservation.create({
-      user_id: req.body.user_id,
       parking_id: req.body.parking_id,
+      user_id: req.body.user_id,
       total_price: 0,
-      entry_time: req.body.entry_time,
+      entry_time: entryTime,
       exit_time: req.body.exit_time,
       extra_fee: req.body.extra_fee,
     });
+    console.log(reservation.entry_time);
     // Devuelve la reserva creada en la respuesta
       res.status(201).json(reservation);
     }
@@ -45,22 +47,18 @@ const getReservationByUserId = async (req, res) => {
   try {
     const { userId } = req.params;
 
-    // Busca una reserva con el user_id proporcionado y exit_time nulo
     const reservation = await Reservation.findOne({
       where: {
         user_id: userId,
         exit_time: null,
       },
     });
-
     if (reservation) {
-      // Si se encuentra una reserva, devuélvela en la respuesta
       res.status(200).json(reservation);
     } else {
-      // Si no se encuentra ninguna reserva, devuelve un mensaje indicando eso
       res.status(404).json({ message: "No se encontró ninguna reserva activa para este usuario." });
     }
-
+    
   } catch (error) {
     console.error("Error al obtener la reserva:", error);
     res.status(500).json({ error: "Error al obtener la reserva" });
