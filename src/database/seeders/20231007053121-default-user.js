@@ -19,8 +19,8 @@ module.exports = {
           updatedAt: new Date(),
         },
         {
-          name: "Usuario1",
-          lastname: "Apellido1",
+          name: "Vicente",
+          lastname: "Alarcón",
           email: "usuario1@example.com",
           password: crypto
             .createHmac("sha256", process.env.TOKEN_SECRET)
@@ -31,8 +31,8 @@ module.exports = {
           updatedAt: new Date(),
         },
         {
-          name: "Usuario2",
-          lastname: "Apellido2",
+          name: "Diego",
+          lastname: "Vera",
           email: "usuario2@example.com",
           password: crypto
             .createHmac("sha256", process.env.TOKEN_SECRET)
@@ -43,8 +43,8 @@ module.exports = {
           updatedAt: new Date(),
         },
         {
-          name: "Usuario3",
-          lastname: "Apellido3",
+          name: "Manuel",
+          lastname: "Vera",
           email: "usuario3@example.com",
           password: crypto
             .createHmac("sha256", process.env.TOKEN_SECRET)
