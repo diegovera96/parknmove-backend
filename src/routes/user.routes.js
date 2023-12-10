@@ -11,7 +11,6 @@ router.use(express.json());
 router.post("/user/register", UserController.register);
 router.post("/user/login", UserController.login);
 
-//Ruta protegida
 router.use(AuthenticateToken);
 router.get("/user/getUsers", UserController.getUsers);
 router.get("/user/getUser:id", UserController.getUsers);

@@ -1,3 +1,7 @@
+/**
+ * Este archivo se encarga de configurar la conexión a la base de datos.
+ */
+
 module.exports = {
   development: {
     username: process.env.DB_USER,

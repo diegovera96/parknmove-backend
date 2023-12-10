@@ -12,8 +12,11 @@ dotenv.config();
 function generateAccessToken(user) {
   return jwt.sign(user, process.env.TOKEN_SECRET, { expiresIn: "1800s" });
 }
-
-// Controlador para el registro de usuarios
+/**
+ * @description
+ * Esta función se encarga de registrar un nuevo usuario.
+ * @returns res.status(201).json({ message: "Usuario creado exitosamente", token }).
+ */
 exports.register = async (req, res) => {
   const { name, lastname, email, password, priority } = req.body;
   const errors = [];
@@ -80,6 +83,11 @@ exports.register = async (req, res) => {
   }
 };
 
+/**
+ * @description
+ * Esta función se encarga de iniciar sesión.
+ * @returns res.status(200).json({ message: "Inicio de sesión exitoso", token }).
+ */
 exports.login = async (req, res) => {
   const { email, password } = req.body;
   const errors = [];
@@ -130,6 +138,11 @@ exports.login = async (req, res) => {
   }
 };
 
+/**
+ * @description
+ * Esta función se encarga de actualizar los datos de un usuario.
+ * @returns res.status(200).json({ message: "Usuario actualizado exitosamente" }).
+ */
 exports.updateUser = async (req, res) => {
   try {
     console.log(req.body.user);
@@ -173,6 +186,10 @@ exports.updateUser = async (req, res) => {
   }
 };
 
+/**
+ * @description
+ * Esta función se encarga de obtener los usuarios.
+ */
 exports.getUsers = async (req, res) => {
   try {
     const users = await User.findAll({
@@ -184,6 +201,11 @@ exports.getUsers = async (req, res) => {
   }
 };
 
+/**
+ * @description
+ * Esta función se encarga de obtener los datos de un usuario.
+ * @returns res.status(200).json({ user }).
+ */
 exports.getUser = async (req, res) => {
   try {
     const user = await User.findOne({
@@ -196,6 +218,12 @@ exports.getUser = async (req, res) => {
   }
 };
 
+
+/**
+ * @description
+ * Esta función se encarga de buscar un usuario.
+ * @returns res.status(200).json({ user }).
+ */
 exports.searchUser = async (req, res) => {
   try {
     const { searchData } = req.body;
