@@ -7,8 +7,8 @@ module.exports = {
       "users",
       [
         {
-          name: "Diego",
-          lastname: "Aguilera",
+          name: "Admin",
+          lastname: "Admin",
           email: "admin@parknmove.com",
           password: crypto
             .createHmac("sha256", process.env.TOKEN_SECRET)
@@ -19,9 +19,9 @@ module.exports = {
           updatedAt: new Date(),
         },
         {
-          name: "Diego",
-          lastname: "Vera",
-          email: "diego@example.com",
+          name: "Usuario1",
+          lastname: "Apellido1",
+          email: "usuario1@example.com",
           password: crypto
             .createHmac("sha256", process.env.TOKEN_SECRET)
             .update("password")
@@ -31,9 +31,21 @@ module.exports = {
           updatedAt: new Date(),
         },
         {
-          name: "Vicente",
-          lastname: "Alarcón",
-          email: "vicente@example.com",
+          name: "Usuario2",
+          lastname: "Apellido2",
+          email: "usuario2@example.com",
+          password: crypto
+            .createHmac("sha256", process.env.TOKEN_SECRET)
+            .update("password")
+            .digest("hex"),
+          priority: 0,
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        },
+        {
+          name: "Usuario3",
+          lastname: "Apellido3",
+          email: "usuario3@example.com",
           password: crypto
             .createHmac("sha256", process.env.TOKEN_SECRET)
             .update("password")
