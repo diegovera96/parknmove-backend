@@ -89,7 +89,6 @@ const calculateFinalPayment = async (req, res) => {
       },
       order: [['entry_time', 'DESC']],
     });
-    console.log("transactionCalculate: ", transaction);
     const id = transaction.id;
     const parking = await Parking.findOne({
       where: {
@@ -98,7 +97,8 @@ const calculateFinalPayment = async (req, res) => {
     });
     console.log("entry_time: ", transaction.entry_time);
     console.log("exit_time: ", transaction.exit_time);
-    const dateToHours = (transaction.exit_time - transaction.entry_time)/3600000;
+    const dateToHours = Math.round((transaction.exit_time - transaction.entry_time)/1000);
+    console.log("dateToHours", dateToHours);
     const FinalPayment = Math.round(parking.base_price + transaction.extra_fee * dateToHours);
     await transaction.update({
       total_price: FinalPayment,
