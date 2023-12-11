@@ -4,7 +4,6 @@ you have to execute the following commands in the  BASH command console:
 	npm install -g sequelize-cli
 	npm install
 ```
-
 Database
 
 to execute the migrations and seeders you must modified the name of the file  .env.example to .env, then modified the password section with your password from workbench.
