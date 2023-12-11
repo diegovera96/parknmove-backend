@@ -74,24 +74,6 @@ module.exports = {
       ],
       {}
     );
-
-    await queryInterface.bulkInsert(
-      "parkings_users",
-      [
-        {
-          id: 1,
-          parking_id: 1,
-          user_id: 1,
-          total_price: 2000,
-          createdAt: new Date(),
-          updatedAt: new Date(),
-          entry_time: new Date(),
-          exit_time: null,
-          extra_fee: 500,
-        },
-      ],
-      {}
-    );
   },
 
   async down(queryInterface, Sequelize) {
