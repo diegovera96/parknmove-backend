@@ -100,7 +100,6 @@ const calculateFinalPayment = async (req, res) => {
     console.log("exit_time: ", transaction.exit_time);
     const dateToHours = (transaction.exit_time - transaction.entry_time)/3600000;
     const FinalPayment = Math.round(parking.base_price + transaction.extra_fee * dateToHours);
-
     await transaction.update({
       total_price: FinalPayment,
     });
