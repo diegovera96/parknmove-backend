@@ -18,7 +18,7 @@ const sequelize = new Sequelize(
         Sequelize.TimeoutError,
         Sequelize.ConnectionRefusedError,
       ],
-      max: 10,
+      max: 25,
       backoffBase: 5000,
       backoffExponent: 1.5,
     },
