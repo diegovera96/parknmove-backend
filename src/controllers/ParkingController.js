@@ -3,7 +3,11 @@ const db = require("../models");
 const Parking = db.parking;
 const Parking_User = db.parking_user;
 
-// Función para obtener todos los datos del estacionamiento
+/**
+  * @description
+  * Esta función se encarga de obtener todos los datos de los estacionamientos.
+  * @returns res.status(200).json(parkingData).
+ */
 const getAllParkingData = async (req, res) => {
   try {
     const parkingData = await Parking.findAll();
@@ -14,6 +18,12 @@ const getAllParkingData = async (req, res) => {
   }
 };
 
+
+/**
+  * @description
+  * Esta función se encarga de obtener todos los espacios ocupados. 
+  * @returns res.status(200).json(occupiedSpaces.length).
+ */
 const getOccupiedSpaces = async (req, res) => {
   try {
     const occupiedSpaces = await Parking_User.findAll({
@@ -28,7 +38,11 @@ const getOccupiedSpaces = async (req, res) => {
   }
 };
 
-// Función para calcular el precio total (Manteniendo tu función original)
+/**
+ * @description
+ * Esta función se encarga de calcular el cobro extra por cada espacio ocupado.
+ * @returns res.status(200).json({ ExtraFee }).
+ */
 const calculateExtraFee = async (req, res) => {
   try {
     const parkingId = 1;
@@ -58,6 +72,12 @@ const calculateExtraFee = async (req, res) => {
   }
 };
 
+
+/**
+ * @description
+ * Esta función se encarga de calcular el pago final de un usuario.
+ * @returns res.status(200).json({ FinalPayment }).
+ */
 const calculateFinalPayment = async (req, res) => {
   try {
     const parkingId = 1;
@@ -69,7 +89,6 @@ const calculateFinalPayment = async (req, res) => {
       },
       order: [['entry_time', 'DESC']],
     });
-    console.log("transactionCalculate: ", transaction);
     const id = transaction.id;
     const parking = await Parking.findOne({
       where: {
@@ -78,9 +97,9 @@ const calculateFinalPayment = async (req, res) => {
     });
     console.log("entry_time: ", transaction.entry_time);
     console.log("exit_time: ", transaction.exit_time);
-    const dateToHours = (transaction.exit_time - transaction.entry_time)/3600000;
+    const dateToHours = Math.round((transaction.exit_time - transaction.entry_time)/1000);
+    console.log("dateToHours", dateToHours);
     const FinalPayment = Math.round(parking.base_price + transaction.extra_fee * dateToHours);
-
     await transaction.update({
       total_price: FinalPayment,
     });
@@ -92,6 +111,12 @@ const calculateFinalPayment = async (req, res) => {
   }
 };
 
+
+/**
+ * @description
+ * Esta función se encarga de registrar el pago de un usuario.
+ * @returns res.status(200).json({ registerDate }).
+ */
 const registerPayment = async (req, res) => {
   try{
     const parkingId = 1;
@@ -115,6 +140,12 @@ const registerPayment = async (req, res) => {
   }
 };
 
+
+/**
+ * @description
+ * Esta función se encarga de obtener los datos de un usuario.
+ * @returns res.status(200).json( info ).
+ */
 const getParkingUserData = async (req, res) => {
   try{
     const parkingId = req.body.parking_id;
@@ -134,6 +165,12 @@ const getParkingUserData = async (req, res) => {
   }
 };
 
+
+/**
+ * @description
+ * Esta función se encarga de obtener el historial de un usuario.
+ * @returns res.status(200).json({ history }).
+ */
 const getHistory = async (req, res) => {
   try{
     const userId = req.params.userId;
@@ -151,6 +188,11 @@ const getHistory = async (req, res) => {
   }
 }
 
+/**
+ * @description
+ * Esta función se encarga de obtener el historial de un estacionamiento.
+ * @returns res.status(200).json({ history }).
+ */
 const getHistoryParking = async (req, res) => {
   try{
     const ParkingId = req.params.ParkingId;
@@ -168,6 +210,11 @@ const getHistoryParking = async (req, res) => {
   }
 }
 
+/**
+ * @description
+ * Esta función se encarga de obtener los datos de un estacionamiento.
+ * @returns res.status(200).json({ parkings }).
+ */
 const getParkings = async (req, res) => {
   try {
     const parkings = await Parking.findAll({
@@ -179,6 +226,11 @@ const getParkings = async (req, res) => {
   }
 }
 
+/**
+ * @description
+ * Esta función se encarga de editar el precio base de un estacionamiento.
+ * @returns res.status(200).json({ parking }).
+ */
 const editPrice = async (req, res) => {
   try {
     const parkingId = req.body.parkingId;
@@ -196,6 +248,11 @@ const editPrice = async (req, res) => {
   }
 }
 
+/**
+ * @description
+ * Esta función se encarga de editar los datos de un estacionamiento.
+ * @returns res.status(200).json({ parking }).
+ */
 const editParking = async (req, res) => {
   console.log(req.body)
   try {
@@ -215,6 +272,11 @@ const editParking = async (req, res) => {
   }
 }
 
+/**
+ * @description
+ * Esta función se encarga de obtener los datos de un estacionamiento.
+ * @returns res.status(200).json({ parking }). 
+ */
 const getParking = async (req, res) => {
   try {
     const parkingId = req.params.parkingId;

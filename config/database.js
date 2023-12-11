@@ -1,3 +1,7 @@
+/**
+ * Este archivo se encarga de configurar la conexión a la base de datos.
+ */
+
 module.exports = {
   development: {
     username: process.env.DB_USER,
@@ -5,9 +9,6 @@ module.exports = {
     database: process.env.DB_DATABASE,
     host: process.env.DB_HOST,
     dialect: "mysql",
-    seederStorage: "json",
-    seederStoragePath: "sequelizeData.json",
-    seederStorageTableName: "sequelize_data",
   },
   test: {
     username: "root",

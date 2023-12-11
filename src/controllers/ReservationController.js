@@ -2,10 +2,12 @@ const db = require("../models");
 const Reservation = db.parking_user;
 const User = db.user;
 const Parking = db.parking;
-import UserModel from '../models/UserModel'; 
-import ParkingModel from '../models/ParkingModel';
 
-// Función para crear una reserva
+/**
+ * @description
+ * Esta función se encarga de crear una nueva reserva.
+ * @returns res.status(201).json(reservation).
+ */
 const createReservation = async (req, res) => {
   console.log(req.body);
   try {
@@ -43,6 +45,11 @@ const createReservation = async (req, res) => {
   }
 };
 
+/**
+ * @description
+ * Esta función se encarga de obtener la reserva activa de un usuario.
+ * @returns res.status(200).json(reservation).
+ */
 const getReservationByUserId = async (req, res) => {
   try {
     const { userId } = req.params;
@@ -65,6 +72,11 @@ const getReservationByUserId = async (req, res) => {
   }
 };
 
+/**
+ * @description
+ * Esta función se encarga de obtener el historial de reservas.
+ * @returns res.status(200).json({ history }).
+ */
 const getHistory = async (req, res) => {
   try{
     let history = await Reservation.findAll();
