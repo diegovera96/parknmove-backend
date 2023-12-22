@@ -6,14 +6,16 @@ import bodyParser from "body-parser";
 import logger from "morgan";
 import cookieParser from "cookie-parser";
 
+
 const app = express();
 
 //Importing routes
 import userRouter from "./routes/user.routes";
 import parkingRouter from "./routes/parking.routes";
+var pug = require('pug');
 
 app.set("views", path.join(__dirname, "views"));
-app.set("view engine", "jade");
+app.set("view engine", "pug");
 app.use(logger("dev"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
